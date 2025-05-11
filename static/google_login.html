@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/static/js/app_config.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-google {
+            background-color: #4285F4;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-google:hover {
+            background-color: #357ae8;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .form-input {
+            border-radius: 8px;
+            border: 1px solid #D1D5DB; /* gray-300 */
+            padding: 10px 12px;
+        }
+        .form-input:focus {
+            border-color: #60A5FA; /* blue-400 */
+            box-shadow: 0 0 0 2px #BFDBFE; /* blue-200 */
+        }
+        .btn {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .btn:active {
+            transform: translateY(1px);
+        }
+        .btn-primary {
+            background-color: #3B82F6; /* blue-500 */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563EB; /* blue-600 */
+        }
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .message-success {
+            background-color: #D1FAE5; /* green-100 */
+            color: #065F46; /* green-700 */
+            border: 1px solid #6EE7B7; /* green-300 */
+        }
+        .message-error {
+            background-color: #FEE2E2; /* red-100 */
+            color: #991B1B; /* red-700 */
+            border: 1px solid #FCA5A5; /* red-300 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="form-container w-full">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Login or Register</h1>
+
+        <div id="message-area" class="mb-4"></div>
+
+        <button onclick="loginWithGoogle()" class="btn btn-google w-full flex items-center justify-center mb-6 py-3">
+            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                <path d="M1 1h22v22H1z" fill="none"/>
+            </svg>
+            Sign in with Google
+        </button>
+
+        <div class="relative flex py-3 items-center">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="flex-shrink mx-4 text-gray-500 text-sm">Or continue with email</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label for="email_login" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email_login" name="username" required class="form-input w-full" placeholder="you@example.com">
+            </div>
+            <div>
+                <label for="password_login" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="password_login" name="password" required class="form-input w-full" placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Login</button>
+        </form>
+        <p class="text-sm text-center text-gray-600 mt-4">
+            Don't have an account? <a href="#register" onclick="showRegisterForm()" class="font-medium text-blue-600 hover:text-blue-500">Register here</a>
+        </p>
+         <p class="text-sm text-center text-gray-600 mt-2">
+            Forgot your password? <a href="#reset" onclick="showPasswordResetRequestForm()" class="font-medium text-blue-600 hover:text-blue-500">Reset Password</a>
+        </p>
+    </div>
+
+    <div id="register-form-container" class="form-container w-full hidden">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Create Account</h2>
+        <form id="registerForm" class="space-y-4">
+            <div>
+                <label for="name_register" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input type="text" id="name_register" name="name" required class="form-input w-full" placeholder="John Doe">
+            </div>
+            <div>
+                <label for="email_register" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email_register" name="email" required class="form-input w-full" placeholder="you@example.com">
+            </div>
+            <div>
+                <label for="password_register" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="password_register" name="password" required class="form-input w-full" placeholder="Min. 8 characters, with uppercase, lowercase, number, symbol">
+                <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character.</p>
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Register</button>
+        </form>
+        <p class="text-sm text-center text-gray-600 mt-4">
+            Already have an account? <a href="#login" onclick="showLoginForm()" class="font-medium text-blue-600 hover:text-blue-500">Login here</a>
+        </p>
+    </div>
+
+    <div id="otp-form-container" class="form-container w-full hidden">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Verify Email</h2>
+        <p class="text-sm text-center text-gray-600 mb-4">An OTP has been sent to <strong id="otpEmailDisplay">your_email@example.com</strong>. Please enter it below.</p>
+        <form id="otpForm" class="space-y-4">
+            <input type="hidden" id="otp_email" name="email">
+            <div>
+                <label for="otp_code" class="block text-sm font-medium text-gray-700 mb-1">OTP Code</label>
+                <input type="text" id="otp_code" name="otp" required class="form-input w-full" placeholder="123456" maxlength="6">
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Verify OTP</button>
+        </form>
+        <button id="resendOtpButton" onclick="resendOtp()" class="mt-4 w-full text-sm text-blue-600 hover:text-blue-500 text-center">Resend OTP</button>
+    </div>
+
+    <div id="password-reset-request-form-container" class="form-container w-full hidden">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Reset Password</h2>
+        <form id="passwordResetRequestForm" class="space-y-4">
+            <div>
+                <label for="email_reset_request" class="block text-sm font-medium text-gray-700 mb-1">Enter your registered email</label>
+                <input type="email" id="email_reset_request" name="email" required class="form-input w-full" placeholder="you@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Send Reset OTP</button>
+        </form>
+        <p class="text-sm text-center text-gray-600 mt-4">
+            Remembered your password? <a href="#login" onclick="showLoginForm()" class="font-medium text-blue-600 hover:text-blue-500">Login here</a>
+        </p>
+    </div>
+
+    <div id="password-reset-form-container" class="form-container w-full hidden">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Set New Password</h2>
+        <p class="text-sm text-center text-gray-600 mb-4">An OTP has been sent to <strong id="resetOtpEmailDisplay">your_email@example.com</strong>. Enter it and your new password.</p>
+        <form id="passwordResetForm" class="space-y-4">
+            <input type="hidden" id="reset_otp_email" name="email">
+            <div>
+                <label for="reset_otp_code" class="block text-sm font-medium text-gray-700 mb-1">OTP Code</label>
+                <input type="text" id="reset_otp_code" name="otp" required class="form-input w-full" placeholder="123456" maxlength="6">
+            </div>
+            <div>
+                <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <input type="password" id="new_password" name="new_password" required class="form-input w-full" placeholder="Min. 8 characters">
+                <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character.</p>
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Reset Password</button>
+        </form>
+         <button id="resendResetOtpButton" onclick="resendResetOtp()" class="mt-4 w-full text-sm text-blue-600 hover:text-blue-500 text-center">Resend Reset OTP</button>
+    </div>
+
+
+    <!-- START OF MODIFIED BLOCK ONLY (you can replace the JS section below in your HTML file) -->
+<script>
+    // Use API_BASE_URL from app_config.js
+    const API_BASE_URL = window.APP_CONFIG.API_BASE_URL;
+
+    const loginFormContainer = document.querySelector('.form-container:not(#register-form-container):not(#otp-form-container):not(#password-reset-request-form-container):not(#password-reset-form-container)');
+    const registerFormContainer = document.getElementById('register-form-container');
+    const otpFormContainer = document.getElementById('otp-form-container');
+    const passwordResetRequestFormContainer = document.getElementById('password-reset-request-form-container');
+    const passwordResetFormContainer = document.getElementById('password-reset-form-container');
+    const messageArea = document.getElementById('message-area');
+    let currentOtpEmail = '';
+
+    function showMessage(text, type = 'success') {
+        messageArea.innerHTML = `<div class="message message-${type}">${text}</div>`;
+    }
+
+    function clearMessages() {
+        messageArea.innerHTML = '';
+    }
+
+    function showLoginForm() {
+        clearMessages();
+        loginFormContainer.classList.remove('hidden');
+        registerFormContainer.classList.add('hidden');
+        otpFormContainer.classList.add('hidden');
+        passwordResetRequestFormContainer.classList.add('hidden');
+        passwordResetFormContainer.classList.add('hidden');
+    }
+
+    function showRegisterForm() {
+        clearMessages();
+        loginFormContainer.classList.add('hidden');
+        registerFormContainer.classList.remove('hidden');
+        otpFormContainer.classList.add('hidden');
+        passwordResetRequestFormContainer.classList.add('hidden');
+        passwordResetFormContainer.classList.add('hidden');
+    }
+
+    function showOtpForm(email) {
+        clearMessages();
+        currentOtpEmail = email;
+        document.getElementById('otpEmailDisplay').textContent = email;
+        document.getElementById('otp_email').value = email;
+        loginFormContainer.classList.add('hidden');
+        registerFormContainer.classList.add('hidden');
+        otpFormContainer.classList.remove('hidden');
+        passwordResetRequestFormContainer.classList.add('hidden');
+        passwordResetFormContainer.classList.add('hidden');
+    }
+
+    function showPasswordResetRequestForm() {
+        clearMessages();
+        loginFormContainer.classList.add('hidden');
+        registerFormContainer.classList.add('hidden');
+        otpFormContainer.classList.add('hidden');
+        passwordResetRequestFormContainer.classList.remove('hidden');
+        passwordResetFormContainer.classList.add('hidden');
+    }
+
+    function showPasswordResetForm(email) {
+        clearMessages();
+        currentOtpEmail = email;
+        document.getElementById('resetOtpEmailDisplay').textContent = email;
+        document.getElementById('reset_otp_email').value = email;
+        loginFormContainer.classList.add('hidden');
+        registerFormContainer.classList.add('hidden');
+        otpFormContainer.classList.add('hidden');
+        passwordResetRequestFormContainer.classList.add('hidden');
+        passwordResetFormContainer.classList.remove('hidden');
+    }
+
+    function loginWithGoogle() {
+        window.location.href = `${API_BASE_URL}/auth/google`;
+    }
+
+    window.onload = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const error = urlParams.get('error');
+
+        if (token) {
+            localStorage.setItem('accessToken', token);
+            showMessage('Successfully logged in with Google! Redirecting...');
+            setTimeout(() => window.location.href = '/dashboard.html', 1500);
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+        } else if (error) {
+            showMessage(`Google login failed: ${decodeURIComponent(error)}`, 'error');
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+        }
+
+        const currentHash = window.location.hash;
+        if (currentHash === '#register') {
+            showRegisterForm();
+        } else if (currentHash === '#reset') {
+            showPasswordResetRequestForm();
+        } else if (currentHash.startsWith('#reset-confirm')) {
+            const resetEmailFromUrl = urlParams.get('reset_email');
+            if (resetEmailFromUrl) {
+                showPasswordResetForm(resetEmailFromUrl);
+            }
+        } else {
+            showLoginForm();
+        }
+    };
+
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        clearMessages();
+        const formData = new FormData(this);
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('accessToken', data.access_token);
+                showMessage('Login successful! Redirecting...');
+                setTimeout(() => window.location.href = '/dashboard.html', 1500);
+            } else {
+                showMessage(data.detail || 'Login failed.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        clearMessages();
+        const formData = new FormData(this);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'Registration successful.', 'success');
+                showOtpForm(payload.email);
+            } else {
+                showMessage(data.detail || 'Registration failed.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    });
+
+    document.getElementById('otpForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        clearMessages();
+        const formData = new FormData(this);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/verify-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'Email verified successfully!', 'success');
+                showLoginForm();
+            } else {
+                showMessage(data.detail || 'OTP verification failed.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    });
+
+    async function resendOtp() {
+        clearMessages();
+        if (!currentOtpEmail) {
+            showMessage('Email not found for resending OTP.', 'error');
+            return;
+        }
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/resend-verification-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: currentOtpEmail })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'New OTP sent.', 'success');
+            } else {
+                showMessage(data.detail || 'Failed to resend OTP.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    }
+
+    // ✅ MODIFIED THIS FUNCTION TO USE resend-password-reset-otp INSTEAD OF request-password-reset
+    document.getElementById('passwordResetRequestForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        clearMessages();
+        const formData = new FormData(this);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/resend-password-reset-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'Reset OTP sent. Please check your email.', 'success');
+                showPasswordResetForm(payload.email);
+            } else {
+                showMessage(data.detail || 'Failed to send reset OTP.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    });
+
+    document.getElementById('passwordResetForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        clearMessages();
+        const formData = new FormData(this);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'Password reset successful.', 'success');
+                showLoginForm();
+            } else {
+                showMessage(data.detail || 'Password reset failed.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred: ' + error.message, 'error');
+        }
+    });
+
+    async function resendResetOtp() {
+        clearMessages();
+        if (!currentOtpEmail) {
+            showMessage('Email not found for resending reset OTP.', 'error');
+            return;
+        }
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/resend-password-reset-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: currentOtpEmail })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showMessage(data.msg || 'Reset OTP resent.', 'success');
+            } else {
+                showMessage(data.detail || 'Failed to resend reset OTP.', 'error');
+            }
+        } catch (error) {
+            showMessage('An error occurred while resending reset OTP: ' + error.message, 'error');
+        }
+    }
+</script>
+<!-- END OF MODIFIED BLOCK -->
+
+</body>
+</html>
