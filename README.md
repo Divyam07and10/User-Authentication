@@ -55,7 +55,7 @@ This is primarily a **backend-focused** project, but includes a **basic frontend
 ## 📁 Project Structure
 
 ```
-Authentication/
+User-Authentication/
 ├── app/
 │   ├── api/
 │   │   └── v1/
@@ -119,7 +119,7 @@ Authentication/
 | POST   | `/auth/logout`                  | Invalidate JWT                |
 | POST   | `/auth/resend-verification-otp` | Resend email verification OTP |
 | POST   | `/auth/verify-email`            | Verify email with OTP         |
-| POST   | `/auth/request-password-reset`  | Send OTP for password reset   |
+| POST   | `/auth/resend-password-reset-otp`| Resend OTP for password reset   |
 | POST   | `/auth/reset-password`          | Reset password using OTP      |
 
 ### 🌐 Google OAuth2 APIs
@@ -144,7 +144,7 @@ Authentication/
 
 ```bash
 git clone https://github.com/khanduja-kunal/Authentication
-cd Authentication
+cd User-Authentication
 ```
 
 ### 2. Create `.env`
@@ -171,7 +171,7 @@ pip install -r requirements.txt
 ### 4. Run Database Migrations
 
 ```bash
-alembic -c app/db/migrations/alembic.ini upgrade head
+alembic -c alembic.ini upgrade head
 ```
 
 ### 5. Start the Development Server
