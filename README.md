@@ -47,7 +47,7 @@ This is primarily a **backend-focused** project, but includes a **basic frontend
 | Authentication | OAuth2 + JWT                        |
 | Database       | PostgreSQL + SQLAlchemy (async)     |
 | ORM            | SQLAlchemy (async)                  |
-| Email          | SMTP / Mock Email (dev)             |
+| Email          | Mock Email (dev)                    |
 | Frontend       | Basic HTML + JS (Google Login demo) |
 
 ---
