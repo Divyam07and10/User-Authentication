@@ -172,6 +172,7 @@ pip install -r requirements.txt
 
 ```bash
 alembic -c alembic.ini upgrade head
+alembic -c alembic.ini revision --autogenerate -m "Add tables"
 ```
 
 ### 5. Start the Development Server
