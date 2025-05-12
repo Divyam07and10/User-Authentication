@@ -182,12 +182,20 @@ uvicorn app.main:app --reload
 
 ---
 
-## 📄 License
-
-MIT License ©
+### 💬 Want to contribute?
+- Fork and open a PR!
+- Discuss via GitHub Issues or email.
 
 ---
 
-## 🙋‍♂️ Contributions Welcome
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Pull requests, suggestions, and issues are highly encouraged. Let's improve authentication systems together!
+---
+
+## 👨‍💻 Author
+Crafted with ❤️ using FastAPI, Google OAuth2, Python, HTML, CSS, and JavaScript.
+
+---
+
+For questions or help, feel free to ask!
