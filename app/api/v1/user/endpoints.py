@@ -6,20 +6,22 @@ from app.api.v1.user.models.user import User
 from app.api.v1.user.schema import UserResponse, UpdateUserRequest
 from app.api.v1.user.service import save_profile_image, validate_image_type, delete_old_image_if_exists
 from app.api.v1.user.repository import commit_and_refresh_user, rollback_transaction
+from fastapi import Form
+from typing import Optional
 
 router = APIRouter(prefix="/user", tags=["User"])
 
 @router.patch("/profile", response_model=UserResponse)
 async def update_user_profile(
     request: Request,
-    payload: UpdateUserRequest = Depends(),
+    name: Optional[str] = Form(None),
     profile_image: UploadFile = File(None),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     try:
-        if payload.name:
-            current_user.name = payload.name
+        if name:  # Directly check the Form parameter
+            current_user.name = name
 
         if profile_image:
             validate_image_type(profile_image)
@@ -36,8 +38,13 @@ async def update_user_profile(
             id=current_user.id,
             name=current_user.name,
             email=current_user.email,
-            profile_image=f"{request.base_url}static/{current_user.profile_image}"
-                if current_user.profile_image else None
+            profile_image=(
+                current_user.profile_image 
+                if current_user.profile_image and current_user.profile_image.startswith("http")
+                else f"{request.base_url}static/{current_user.profile_image}" 
+                if current_user.profile_image 
+                else None
+            )
         )
 
     except Exception as e:
@@ -56,6 +63,11 @@ async def get_user_profile(
         id=current_user.id,
         name=current_user.name,
         email=current_user.email,
-        profile_image=f"{request.base_url}static/{current_user.profile_image}"
-            if current_user.profile_image else None
+        profile_image=(
+            current_user.profile_image 
+            if current_user.profile_image and current_user.profile_image.startswith("http")
+            else f"{request.base_url}static/{current_user.profile_image}" 
+            if current_user.profile_image 
+            else None
+        )
     )
