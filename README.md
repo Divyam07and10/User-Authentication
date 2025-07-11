@@ -150,8 +150,8 @@ cd User-Authentication
 ### 2. Create `.env`
 
 ```ini
-ASYNC_DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+SYNC_DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
 SECRET_KEY=your_super_secret_key
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 OTP_LIFETIME_MINUTES=5
@@ -160,6 +160,7 @@ MAIL_SENDER=support@system.com
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 GOOGLE_REDIRECT_URI=http://localhost:8000/api/v1/auth/google/callback
+ALGORITHM=HS256
 ```
 
 ### 3. Install Dependencies
