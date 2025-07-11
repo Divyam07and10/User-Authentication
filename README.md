@@ -143,7 +143,7 @@ User-Authentication/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/khanduja-kunal/Authentication
+git clone https://github.com/Divyam07and10/User-Authentication.git
 cd User-Authentication
 ```
 
